@@ -51,12 +51,13 @@ body {
 
 .task-table {
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     border-collapse: collapse;
     border-radius: 8px;
     overflow: hidden;
     background: var(--background-color);
+    table-layout: fixed;
 }
 
 .task-table th,
@@ -68,6 +69,39 @@ body {
 
 .task-table th {
     font-weight: bold;
+}
+
+/* Table colunms*/
+/* Title */
+.task-table th:nth-child(1),
+.task-table td:nth-child(1) {
+    width: 7%;
+    overflow: hidden;
+}
+
+/* Description  */
+.task-table th:nth-child(2),
+.task-table td:nth-child(2) {
+    width: 14%;
+    overflow: hidden;
+}
+
+/* Status */
+.task-table th:nth-child(3),
+.task-table td:nth-child(3) {
+    width: 15%;
+}
+
+/* Date */
+.task-table th:nth-child(4),
+.task-table td:nth-child(4) {
+    width: 15%;
+}
+
+/* Actions */
+.task-table th:nth-child(5),
+.task-table td:nth-child(5) {
+    width: 48%;
 }
 
 /* Buttons */
