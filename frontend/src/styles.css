@@ -75,21 +75,21 @@ body {
 /* Title */
 .task-table th:nth-child(1),
 .task-table td:nth-child(1) {
-    width: 7%;
+    width: 12%;
     overflow: hidden;
 }
 
 /* Description  */
 .task-table th:nth-child(2),
 .task-table td:nth-child(2) {
-    width: 14%;
+    width: 16%;
     overflow: hidden;
 }
 
 /* Status */
 .task-table th:nth-child(3),
 .task-table td:nth-child(3) {
-    width: 15%;
+    width: 8%;
 }
 
 /* Date */

@@ -22,7 +22,7 @@
       <tr v-for="task in tasks" :key="task.id">
         <td>{{ task.title }}</td>
         <td>{{ task.description }}</td>
-        <td>{{ task.status }}</td>
+        <td>{{ translateStatus(task.status) }}</td>
         <td>{{ formatDate(task.createdAt) }}</td>
         <td class="actions">
           <button class="btn" @click="setStatus(task, 'OPEN')">Offen</button>
@@ -98,6 +98,14 @@ const formatDate = (dateString) => {
   })
 }
 
+const translateStatus = (engStatus) => {
+  const translation = {
+    "OPEN": "Offen",
+    "IN_PROGRESS":"In Arbeit",
+    "DONE":"Fertig"
+  }
+  return translation[engStatus]
+}
 //funktion für translate status
 
 onMounted(loadTasks)
