@@ -2,8 +2,10 @@ package com.example.taskmanager.controller;
 
 import com.example.taskmanager.model.Task;
 import com.example.taskmanager.service.TaskService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -17,31 +19,47 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<Task> all() {
-        return service.findAll();
+    public ResponseEntity<List<Task>> all() {
+        return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/{id}")
-    public Task one(@PathVariable Long id) {
-        return service.findById(id);
+    public ResponseEntity<Task> one(@PathVariable Long id) {
+        Task task = service.findById(id);
+        if (task == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(task);
     }
 
     @PostMapping
-    public Task create(@RequestBody Task task) {
-        return service.save(task);
+    public ResponseEntity<Task> create(@RequestBody Task task) {
+        Task saved = service.save(task);
+        return ResponseEntity
+                .created(URI.create("/api/tasks/" + saved.getId()))
+                .body(saved);
     }
 
     @PutMapping("/{id}")
-    public Task update(@PathVariable Long id, @RequestBody Task updated) {
+    public ResponseEntity<Task> update(@PathVariable Long id, @RequestBody Task updated) {
         Task task = service.findById(id);
+        if (task == null) {
+            return ResponseEntity.notFound().build();
+        }
         task.setTitle(updated.getTitle());
         task.setDescription(updated.getDescription());
         task.setStatus(updated.getStatus());
-        return service.save(task);
+        Task saved = service.save(task);
+        return ResponseEntity.ok(saved);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        Task task = service.findById(id);
+        if (task == null) {
+            return ResponseEntity.notFound().build();
+        }
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
