@@ -25,10 +25,10 @@
         <td>{{ task.status }}</td>
         <td>{{ formatDate(task.createdAt) }}</td>
         <td class="actions">
-          <button class="btn" @click="setStatus(task, 'OPEN')">Open</button>
-          <button class="btn" @click="setStatus(task, 'IN_PROGRESS')">In Progress</button>
-          <button class="btn" @click="setStatus(task, 'DONE')">Done</button>
-          <button class="btn btn-delete" @click="deleteTask(task)">🗑 Delete</button>
+          <button class="btn" @click="setStatus(task, 'OPEN')">Offen</button>
+          <button class="btn" @click="setStatus(task, 'IN_PROGRESS')">In Arbeit</button>
+          <button class="btn" @click="setStatus(task, 'DONE')">Fertig</button>
+          <button class="btn btn-delete" @click="deleteTask(task)">Löschen</button>
         </td>
       </tr>
       </tbody>
@@ -44,13 +44,12 @@ const tasks = ref([])
 const newTitle = ref("")
 const newDescription = ref("")
 
-const loadTasks = async () => {
-  try {
-    const res = await axios.get("http://localhost:8080/api/tasks")
-    tasks.value = res.data
-  } catch (err) {
-    console.error("Backend nicht erreichbar", err)
-  }
+const loadTasks = () => {
+    axios.get("http://localhost:8080/api/tasks").then(response=>{
+      tasks.value = response.data
+    }).catch(err => {
+      console.log("Failed to load Tasks")
+    })
 }
 
 const addTask = async () => {
@@ -66,35 +65,30 @@ const addTask = async () => {
     newTitle.value = ""
     newDescription.value = ""
   } catch (err) {
-    console.error("Task konnte nicht erstellt werden", err)
+    console.error("Task couldn't be created", err)
   }
 }
 
-const setStatus = async (task, status) => {
+const setStatus =  (task, status) => {
   const oldStatus = task.status
   task.status = status
-  try {
-    await axios.put(`http://localhost:8080/api/tasks/${task.id}`, { ...task })
-  } catch (err) {
-    console.error("Status konnte nicht aktualisiert werden", err)
+  axios.put(`http://localhost:8080/api/tasks/${task.id}`, { ...task }).catch(err=>{
+    console.error("Status couldn't be deleted", err)
     task.status = oldStatus
-  }
+  })
 }
 
-// Task löschen – UI sofort aktualisieren
-const deleteTask = async (task) => {
+
+const deleteTask = (task) => {
   const index = tasks.value.findIndex(t => t.id === task.id)
   if (index === -1) return
-  tasks.value.splice(index, 1) // Sofort UI aktualisieren
-  try {
-    await axios.delete(`http://localhost:8080/api/tasks/${task.id}`)
-  } catch (err) {
-    console.error("Task konnte nicht gelöscht werden", err)
-    tasks.value.splice(index, 0, task) // Bei Fehler zurücksetzen
-  }
+  tasks.value.splice(index, 1)
+  axios.delete(`http://localhost:8080/api/tasks/${task.id}`).catch(err=>{
+    console.error("Task couldn't be deleted", err)
+    tasks.value.splice(index, 0, task)
+  })
 }
 
-// Datum formatieren
 const formatDate = (dateString) => {
   const date = new Date(dateString)
   return date.toLocaleDateString("de-DE", {
@@ -103,6 +97,8 @@ const formatDate = (dateString) => {
     year: "numeric"
   })
 }
+
+//funktion für translate status
 
 onMounted(loadTasks)
 </script>

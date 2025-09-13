@@ -14,8 +14,19 @@ public class TaskService {
         this.repo = repo;
     }
 
-    public List<Task> findAll() { return repo.findAll(); }
-    public Task findById(Long id) { return repo.findById(id).orElseThrow(); }
-    public Task save(Task task) { return repo.save(task); }
-    public void delete(Long id) { repo.deleteById(id); }
+    public List<Task> findAll() {
+        return repo.findAll();
+    }
+
+    public Task findById(Long id) {
+        return repo.findById(id).orElseThrow();
+    }
+
+    public Task save(Task task) {
+        return repo.save(task);
+    }
+
+    public void delete(Long id) {
+        repo.deleteById(id);
+    }
 }

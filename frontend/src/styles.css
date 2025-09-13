@@ -58,7 +58,7 @@ body {
     border-collapse: collapse;
     border-radius: 8px;
     overflow: hidden;
-    background: white;
+    background: var(--background-color);
 }
 
 .task-table th,
