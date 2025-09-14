@@ -2,7 +2,7 @@
 
 ## Überblick
 Die App ist in zwei Schichten aufgeteilt: ein Frontend (Vue 3 / Vite) für die UI und ein Backend (Spring Boot) für 
-die Geschäftslogik und Persistenz. 
+die Logik und Persistenz. 
 Die Kommunikation läuft über eine REST-API unter dem Pfad ```/api/tasks```.
 
 ---
@@ -13,7 +13,7 @@ Die Kommunikation läuft über eine REST-API unter dem Pfad ```/api/tasks```.
 - Vite + Vue, enthält das UI (Formular zum Anlegen, Tabelle zur Anzeige, Edit/Delete).
 
 ### Backend
-- Spring Boot Anwendung, stellt die REST-Endpunkte bereit und kapselt Geschäftslogik in einer Service-Schicht.
+- Spring Boot Anwendung, stellt die REST-Endpunkte bereit und kapselt Logik in einer Service-Schicht.
 
 ### Datenmodel
 - Entity Task (siehe ```model/Task.java```) — wichtige Felder:
@@ -37,7 +37,7 @@ Wesentliche Endpunkte (Controller ```TaskController.java```):
 ### Service- und Repository-Schicht
 
 - Controller nimmt HTTP-Anfragen entgegen und delegiert an die Service-Schicht. 
-- TaskService (```ITaskService``` implementiert) kapselt Geschäftslogik und verwendet TaskRepository (Spring Data JPA) für DB-Operationen:
+- TaskService (```ITaskService``` implementiert) kapselt Logik und verwendet TaskRepository (Spring Data JPA) für DB-Operationen:
   - ```findAll()```, ```findById(id)```, ```save(task)```, ```delete(id)```.
 
 ### Docker
