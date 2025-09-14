@@ -45,7 +45,7 @@ const newTitle = ref("")
 const newDescription = ref("")
 
 const loadTasks = () => {
-    axios.get("http://localhost:8080/api/tasks").then(response=>{
+    axios.get("/api/api/tasks").then(response=>{
       tasks.value = response.data
     }).catch(err => {
       console.log("Failed to load Tasks")
@@ -55,7 +55,7 @@ const loadTasks = () => {
 const addTask = async () => {
   if (!newTitle.value) return
   try {
-    const res = await axios.post("http://localhost:8080/api/tasks", {
+    const res = await axios.post("/api/api/tasks", {
       title: newTitle.value,
       description: newDescription.value,
       status: "OPEN",
@@ -72,7 +72,7 @@ const addTask = async () => {
 const setStatus =  (task, status) => {
   const oldStatus = task.status
   task.status = status
-  axios.put(`http://localhost:8080/api/tasks/${task.id}`, { ...task }).catch(err=>{
+  axios.put(`/api/api/tasks/${task.id}`, { ...task }).catch(err=>{
     console.error("Status couldn't be deleted", err)
     task.status = oldStatus
   })
@@ -83,7 +83,7 @@ const deleteTask = (task) => {
   const index = tasks.value.findIndex(t => t.id === task.id)
   if (index === -1) return
   tasks.value.splice(index, 1)
-  axios.delete(`http://localhost:8080/api/tasks/${task.id}`).catch(err=>{
+  axios.delete(`/api/api/tasks/${task.id}`).catch(err=>{
     console.error("Task couldn't be deleted", err)
     tasks.value.splice(index, 0, task)
   })

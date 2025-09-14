@@ -1,5 +1,18 @@
 # Task Manager
 
+Vorraussetzungen:
+maven 3.9.8
+Java 17 jdk
+Node.js 22
+
+
+mvn verify
+cd frontend
+npm run build
+cd ..
+docker-compose up
+
+
 ## Überblick
 Der Task Manager ist eine Anwendung zur Verwaltung von Aufgaben. Die Anwendung besteht aus einem **Frontend** (Vite + Vue.js) für die Benutzeroberfläche und einem **Backend** (Spring Boot, Java) für die Datenspeicherung.
 
