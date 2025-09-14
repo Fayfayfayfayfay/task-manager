@@ -73,7 +73,7 @@ const setStatus =  (task, status) => {
   const oldStatus = task.status
   task.status = status
   axios.put(`/api/api/tasks/${task.id}`, { ...task }).catch(err=>{
-    console.error("Status couldn't be deleted", err)
+    console.error("Status couldn't be changed", err)
     task.status = oldStatus
   })
 }

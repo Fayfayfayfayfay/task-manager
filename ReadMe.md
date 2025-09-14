@@ -2,8 +2,8 @@
 
 ## Überblick
 
-Die App ist in zwei Schichten aufgeteilt: ein Frontend (Vue 3 / Vite) für die UI und ein Backend (Spring Boot) für
-die Logik und Persistenz.
+Die App ist in ein Frontend (Vue 3 / Vite) für die UI und ein Backend (Spring Boot) für
+die Logik und Persistenz aufgeteilt.
 Die Kommunikation läuft über eine REST-API unter dem Pfad ```/api/tasks```.
 
 ---
@@ -33,11 +33,35 @@ Base: ```@RequestMapping("/api/tasks")``` → API unter ```/api/tasks```
 
 Wesentliche Endpunkte (Controller ```TaskController.java```):
 
-- ```GET /api/tasks``` — alle Tasks zurückgeben (200 OK)
-- ```GET /api/tasks/{id}``` — einzelnen Task holen (200 OK oder 404 Not Found)
-- ```POST /api/tasks``` — neuen Task anlegen → liefert 201 Created + Location-Header /api/tasks/{id}
-- ```PUT /api/tasks/{id}``` — Task aktualisieren → liefert aktualisierten Task (200 OK)
-- ```DELETE /api/tasks/{id}``` — Task löschen → 204 No Content
+- ```GET /api/tasks```
+    - alle Tasks zurückgeben (200 OK)
+    - Eingabe: keine
+    - Ausgabe: Liste aller Tasks (JSON-Array von ```Task```)
+- ```GET /api/tasks/{id}```
+    - einzelnen Task holen (200 OK oder 404 Not Found)
+    - Eingabe: Pfadparameter ```id``` (Long)
+    - Ausgabe: einzelner Task (JSON-Objekt) oder ```404 Not Found```
+    - ```POST /api/tasks```
+        - neuen Task anlegen → liefert 201 Created + Location-Header /api/tasks/{id}
+        - Eingabe: JSON-Body (neuer Task, ohne ```id```)
+      ```
+      {
+      "title": "Neuer Task",
+      "description": "Beschreibung",
+      "status": "OPEN"
+      }
+      ```
+        - Ausgabe: angelegter Task inkl. ```id``` (JSON) + Header Location: ```/api/tasks/{id}```
+- ```PUT /api/tasks/{id}```
+    - Task aktualisieren → liefert aktualisierten Task (200 OK)
+    - Eingabe:
+        - Pfadparameter ```id``` (Long)
+        - JSON-Body (Task-Daten, Felder wie bei POST)
+    - Ausgabe: aktualisierter Task (JSON)
+- ```DELETE /api/tasks/{id}```
+    - Task löschen → 204 No Content
+    - Eingabe: Pfadparameter ```id``` (Long)
+    - Ausgabe: keine, nur HTTP-Status ```204 No Content```
 
 ### Service- und Repository-Schicht
 
